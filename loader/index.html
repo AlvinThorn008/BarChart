@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <title>Loading</title>
+</head>
+<body>
+    <!-- <div class="loader">
+        <div class="bar"></div>
+    </div> -->
+    <div class="das">
+    </div>
+    <!-- <div class="grid">
+        <div class="bar-1"></div>
+    </div> -->
+    <script type="text/javascript">
+    function centerElem(elem_obj, parent, center_axis) {
+        var pw = parent.clientWidth;
+        var ph = parent.clientHeight;
+        var ew = elem_obj.clientWidth;
+        var eh = elem_obj.clientHeight;
+        var strang = {
+            w: undefined,
+            h: undefined,
+            middler: undefined
+        };
+        if (parent === window) {
+            pw = innerWidth;
+            ph = innerHeight;
+        }
+        if (center_axis == "both") {
+
+            strang.w = String((pw - ew) / 2) + "px";
+            strang.h = String((ph - eh) / 2) + "px";
+            elem_obj.style.left = strang.w;
+            elem_obj.style.top = strang.h;
+        }
+        else if (center_axis == "x") {
+            strang.w = String(((pw - ew) / 2) - 3.5) + "px";
+            elem_obj.style.left = strang.w;
+        }
+        else if (center_axis == "y") {
+            strang.h = String((ph - eh) / 2) + "px";
+            elem_obj.style.top = strang.h;
+        }
+        else {
+            console.log("centerElem takes three agruments: Element_Object, Parent, Center_Axis. Element_Object is the element object being centered | Parent is the containing element of the Element_Object | Center_Axis is the axis to be centered on. Example: centerElem(document.querySelector('#foo'), document.querySelector('.bar'), 'x')");
+        }
+    }
+    function centerElem2(elem_obj, parent, center_axis) {
+        let pare = {
+            x: parent.clientWidth,
+            y: parent.clientHeight
+        }
+        if (parent === window) {
+            pare.x = innerWidth;
+            pare.y = innerHeight;
+        }
+        if (center_axis == 'x') {
+            console.log(pare.x);
+            console.log(elem_obj.clientWidth);
+            let mleft = (pare.x - elem_obj.clientWidth) / 2;
+            mleft = ((mleft/pare.x) * 100) + '%';
+            elem_obj.style.marginLeft = mleft;
+        }
+        else if (center_axis == 'y') {
+            let mtop = (pare.y - elem_obj.clientHeight) / 2;
+            mtop = ((mtop/pare.x) * 100) + '%';
+            elem_obj.style.marginTop = mtop;
+        }
+        else if (center_axis == 'both') {
+            let mleft = (pare.x - elem_obj.clientWidth) / 2;
+            mleft = ((mleft/pare.x) * 100) + '%';
+            elem_obj.style.marginLeft = mleft;
+            let mtop = (pare.y - elem_obj.clientHeight) / 2;
+            mtop = ((mtop/pare.x) * 100) + '%';
+            elem_obj.style.marginTop = mtop;
+        }
+        else {
+            console.log("centerElem takes three agruments: Element_Object, Parent, Center_Axis. Element_Object is the element object being centered | Parent is the containing element of the Element_Object | Center_Axis is the axis to be centered on. Example: centerElem(document.querySelector('#foo'), document.querySelector('.bar'), 'x')");
+        }
+    }
+    function StyleToNum(style_string) {
+        let remo = style_string.replace('px', '');
+        return parseInt(remo);
+    }
+    //let barw = document.querySelector('.bar-1');
+    let das = document.querySelector('.das');
+    das.style.width = (0.9 * innerWidth) + 'px';
+    das.style.height = (0.9 * innerHeight) + 'px';
+    das.style.left = (0.05 * innerWidth) + 'px';
+    das.style.top = (0.05 * innerHeight) + 'px';
+    let n = 1;
+
+    function randint(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomColor(colorObj, fruit) {
+        let color = Object.keys(colorObj).find((acolor)=> {
+            return acolor == fruit;
+        })
+        return colorObj[color];
+    }
+
+    
+    const colors = {
+        cherry: "red",
+        apple: "firebrick",
+        lime: "lime",
+        grape: "purple",
+        lemon: "greenyellow",
+        orange: "orange",
+        mango: "darkorange",
+        pumpkin: "rgba(255, 174, 0, 0.897)",
+        pineapple: "yellow",
+        banana: "rgb(245,199, 159)"
+    }
+    // setInterval(() => {
+    //     if (StyleToNum(bar.style.height) == 100) {
+    //         bar.style.height = '100px';
+    //     }else {
+    //     bar.style.height = String(StyleToNum(bar.style.height) + 1) + 'px';
+    //     }
+    // }, 1000);
+    // setInterval(()=> {
+    //     if (n == 100) {
+    //         clearInterval(1);
+    //     }
+    //     barw.style.height = n + 'px';
+    //     n += 1;
+    // }, 50)
+
+    class Chart {
+        constructor(chart_element, data) {
+            this.chart_element = chart_element;
+            this.data = data;
+        }
+        createBar() {
+            let barNo = Object.keys(this.data).length;
+            let barWidth = (0.6 * this.chart_element.clientWidth) / 10;
+            let spacing = (0.4 * this.chart_element.clientWidth) / 11;
+            let maxUnitH = (19/20 * this.chart_element.clientHeight) / Math.max(...(Object.values(this.data)));
+            if (maxUnitH == Infinity) {
+                maxUnitH = 0;
+            }
+            console.log(maxUnitH);
+            //Bars
+            let bars = [];
+            for (let dat in this.data) {
+                let bar = document.createElement('div');
+                let label = document.createElement('p');
+                label.style.marginTop = '';
+                label.style.marginBottom = '';
+                let label2 = document.createElement('p');
+                label.style.fontFamily = 'azonix';
+                label.style.fontSize = '1.3em';
+                label.style.position = 'absolute';
+                label2.style.fontFamily = 'azonix';
+                label2.style.fontSize = '1em';
+                label2.style.position = 'absolute';
+                label2.innerHTML = dat;
+                label2.style.bottom = '-2.5em';
+                bar.appendChild(label);
+                bar.appendChild(label2);
+                centerElem2(label, bar, 'y');
+                centerElem2(label, bar, 'x');
+                centerElem2(label2, bar, 'x');
+                bar.id = 'bar-' + Object.keys(this.data).indexOf(dat);
+                let barheight = Math.round(this.data[dat] * maxUnitH);
+                let bar_remote = bar.style;
+                bar_remote.width = barWidth + 'px';
+                bar_remote.position = "absolute";
+                bar_remote.bottom = "0px";
+                bar_remote.height = '1px';
+                bar_remote.backgroundColor = randomColor(colors, dat);
+                label2.style.color = bar_remote.backgroundColor;
+                bar_remote.opacity = '0.2';
+                bar_remote.left = Math.round(spacing + (Object.keys(this.data).indexOf(dat)) * (barWidth + spacing)) + 'px';
+
+                let barObj = {
+                    id: bar.id,
+                    body: bar,
+                    label: label,
+                    styling: bar_remote,
+                    height: barheight,
+                    initial: '1px',
+                    reachMax: () => {
+                        let time = 10;
+                        let n = 1;
+                        let m = 0.2;
+                        let interId = setInterval(()=> {
+                            centerElem2(label, bar, 'y');
+                            centerElem2(label, bar, 'x');
+                            centerElem2(label2, bar, 'x');
+                            if (n == barObj.height) {
+                                clearInterval(interId);
+                            }
+                            if (barObj.height == 0) {
+                                clearInterval(interId);
+                            }
+                            bar.style.height = n + 'px';
+                            barObj.label.innerHTML = String(Math.round(n / maxUnitH));
+                            bar.style.opacity = m;
+                            m += 0.8 / time;
+                            n += 1;
+                        }, time)
+                    }
+                }
+                Object.defineProperty(barObj, 'parent', {
+                    value: this.chart_element,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+                
+                bars.push(barObj);
+            }
+            return bars;
+        }
+    }
+
+    let bardata = {
+        cherry: 40,
+        lime: 16,
+        apple: 30,
+        grape: 20,
+        lemon: 45,
+        mango: 24,
+        orange: 38,
+        pumpkin: 10,
+        pineapple: 50,
+        banana: 61
+    }
+    function drawBar(bar, parent) {
+        parent.appendChild(bar);
+    }
+    let chart = new Chart(das, bardata);
+    let pollbars = chart.createBar();
+    pollbars.forEach((elem) => {
+        drawBar(elem.body, elem.parent);
+        elem.reachMax();
+    })
+    
+    </script>
+</body>
+</html>

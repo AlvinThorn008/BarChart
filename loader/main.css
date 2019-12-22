@@ -1,0 +1,73 @@
+.loader {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 30%;
+    left: 30%;
+    border-width: 10px 10px 10px 10px;
+    border-color: red;
+}
+
+.bar {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-top-color: gold;
+    border-left-color: gold;
+    border-bottom-color: cyan;
+    border-right-color: cyan;
+    top: 20px;
+    border-style: solid;
+    border-width: 10px;
+    animation: spin 1s infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(720deg);
+    }
+}
+
+.grid {
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    top: 100px;
+    right: 20px;
+    border-width: 2px;
+    border-color: gray;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+.bar-1 {
+    position: absolute;
+    width: 40px;
+    height: 1px;
+    bottom: 0px;
+    background-color: cyan;
+    left: 35%;
+}
+
+.das {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+    /* bottom: 60px;
+    left: 40px; */
+    border-color: gray;
+    border-style: solid;
+    border-width: 4px;
+}
+
+@font-face {
+    src: url(Azonix.otf);
+    font-family: 'azonix';
+}
+
