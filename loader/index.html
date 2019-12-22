@@ -8,15 +8,10 @@
     <title>Loading</title>
 </head>
 <body>
-    <!-- <div class="loader">
-        <div class="bar"></div>
-    </div> -->
     <div class="das">
     </div>
-    <!-- <div class="grid">
-        <div class="bar-1"></div>
-    </div> -->
     <script type="text/javascript">
+    //Absolute Element centering function
     function centerElem(elem_obj, parent, center_axis) {
         var pw = parent.clientWidth;
         var ph = parent.clientHeight;
@@ -50,6 +45,7 @@
             console.log("centerElem takes three agruments: Element_Object, Parent, Center_Axis. Element_Object is the element object being centered | Parent is the containing element of the Element_Object | Center_Axis is the axis to be centered on. Example: centerElem(document.querySelector('#foo'), document.querySelector('.bar'), 'x')");
         }
     }
+    //Relative Element centering function
     function centerElem2(elem_obj, parent, center_axis) {
         let pare = {
             x: parent.clientWidth,
@@ -83,11 +79,6 @@
             console.log("centerElem takes three agruments: Element_Object, Parent, Center_Axis. Element_Object is the element object being centered | Parent is the containing element of the Element_Object | Center_Axis is the axis to be centered on. Example: centerElem(document.querySelector('#foo'), document.querySelector('.bar'), 'x')");
         }
     }
-    function StyleToNum(style_string) {
-        let remo = style_string.replace('px', '');
-        return parseInt(remo);
-    }
-    //let barw = document.querySelector('.bar-1');
     let das = document.querySelector('.das');
     das.style.width = (0.9 * innerWidth) + 'px';
     das.style.height = (0.9 * innerHeight) + 'px';
@@ -95,20 +86,21 @@
     das.style.top = (0.05 * innerHeight) + 'px';
     let n = 1;
 
+    //Utility functions
     function randint(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
-    function randomColor(colorObj, fruit) {
+    
+    function colormatcher(colorObj, fruit) {
         let color = Object.keys(colorObj).find((acolor)=> {
             return acolor == fruit;
         })
         return colorObj[color];
     }
 
-    
+    //fruit color object
     const colors = {
         cherry: "red",
         apple: "firebrick",
@@ -121,25 +113,14 @@
         pineapple: "yellow",
         banana: "rgb(245,199, 159)"
     }
-    // setInterval(() => {
-    //     if (StyleToNum(bar.style.height) == 100) {
-    //         bar.style.height = '100px';
-    //     }else {
-    //     bar.style.height = String(StyleToNum(bar.style.height) + 1) + 'px';
-    //     }
-    // }, 1000);
-    // setInterval(()=> {
-    //     if (n == 100) {
-    //         clearInterval(1);
-    //     }
-    //     barw.style.height = n + 'px';
-    //     n += 1;
-    // }, 50)
-
+    //BarChart class
     class Chart {
         constructor(chart_element, data) {
             this.chart_element = chart_element;
             this.data = data;
+            if (Object.keys(this.data).length > 10) {
+                console.error("Error: max bar limit exceeded");
+            }
         }
         createBar() {
             let barNo = Object.keys(this.data).length;
@@ -149,7 +130,6 @@
             if (maxUnitH == Infinity) {
                 maxUnitH = 0;
             }
-            console.log(maxUnitH);
             //Bars
             let bars = [];
             for (let dat in this.data) {
@@ -178,7 +158,7 @@
                 bar_remote.position = "absolute";
                 bar_remote.bottom = "0px";
                 bar_remote.height = '1px';
-                bar_remote.backgroundColor = randomColor(colors, dat);
+                bar_remote.backgroundColor = colormatcher(colors, dat);
                 label2.style.color = bar_remote.backgroundColor;
                 bar_remote.opacity = '0.2';
                 bar_remote.left = Math.round(spacing + (Object.keys(this.data).indexOf(dat)) * (barWidth + spacing)) + 'px';
@@ -224,7 +204,7 @@
             return bars;
         }
     }
-
+    //Data to be represented to the barchart.
     let bardata = {
         cherry: 40,
         lime: 16,
@@ -237,15 +217,19 @@
         pineapple: 50,
         banana: 61
     }
+    //Append child for parent of bars
     function drawBar(bar, parent) {
         parent.appendChild(bar);
     }
     let chart = new Chart(das, bardata);
+        //das ==> html element object
+        //bardata ==> data to be represented
     let pollbars = chart.createBar();
+        //pollbars ==> variable storing the returned array of bars
     pollbars.forEach((elem) => {
         drawBar(elem.body, elem.parent);
         elem.reachMax();
-    })
+    })//For Each loop that add the bars to the screen.
     
     </script>
 </body>
